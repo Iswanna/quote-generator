@@ -1,4 +1,4 @@
-const API_URL = "https://iswanna-quotes.hosting.codeyourfuture.io";
+const API_URL = "https://iswanna-quotes-backend.hosting.codeyourfuture.io";
 
 // Function to display a random quote on the page
 async function displayRandomQuote() {
