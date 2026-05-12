@@ -14,5 +14,33 @@
       <p id="author"></p>
       <button type="button" id="new-quote">New quote</button>
     </div>
+
+    <!-- Form to add new quotes -->
+    <section id="add-quote-section">
+      <h2>Add a New Quote</h2>
+      <form id="quote-form">
+        <div>
+          <label for="input-quote">Quote:</label>
+          <textarea
+            id="input-quote"
+            placeholder="Enter the quote here..."
+            required
+          ></textarea>
+        </div>
+        <div>
+          <label for="input-author">Author:</label>
+          <input
+            type="text"
+            id="input-author"
+            placeholder="Author name"
+            required
+          />
+        </div>
+        <button type="submit">Submit Quote</button>
+      </form>
+
+      <!-- This area will show success/error messages -->
+      <p id="message-area"></p>
+    </section>
   </body>
 </html>
