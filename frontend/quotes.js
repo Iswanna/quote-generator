@@ -38,8 +38,8 @@ quoteForm.addEventListener("submit", async (event) => {
   messageArea.style.color = "black";
 
   // Get the content of the quote and author input area
-  const quoteValue = document.getElementById("input-quote").value;
-  const authorValue = document.getElementById("input-author").value;
+  const quoteValue = document.getElementById("input-quote").value.trim();
+  const authorValue = document.getElementById("input-author").value.trim();
 
   // format the quote and author data as a JavaScript object
   const newQuoteData = {
@@ -65,6 +65,11 @@ quoteForm.addEventListener("submit", async (event) => {
 
       // Clear the form boxes so the user can add another one
       quoteForm.reset();
+
+      // clear message after 5 seconds
+      setTimeout(() => {
+        messageArea.textContent = "";
+      }, 5000);
     } else {
       // Backend returned an error (like 400 Bad Request)
       const errorText = await response.text();
