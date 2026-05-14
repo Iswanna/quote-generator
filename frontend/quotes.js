@@ -30,55 +30,43 @@ const quoteForm = document.getElementById("quote-form");
 const messageArea = document.getElementById("message-area");
 
 quoteForm.addEventListener("submit", async (event) => {
-  // stop the browser from refreshing the page
   event.preventDefault();
 
-  // update and format the content of the message area
-  messageArea.textContent = "Sending...";
-  messageArea.style.color = "black";
-
-  // Get the content of the quote and author input area
   const quoteValue = document.getElementById("input-quote").value.trim();
   const authorValue = document.getElementById("input-author").value.trim();
 
-  // format the quote and author data as a JavaScript object
-  const newQuoteData = {
-    quote: quoteValue,
-    author: authorValue,
-  };
+  // --- NEW FRONTEND VALIDATION ---
+  if (quoteValue === "" || authorValue === "") {
+    messageArea.textContent = "Please provide both a quote and an author.";
+    messageArea.style.color = "orange";
+    return; // STOP HERE: Don't even try to fetch
+  }
+  // -------------------------------
+
+  messageArea.textContent = "Sending...";
+  messageArea.style.color = "black";
 
   try {
-    // Make the POST request to the backend
     const response = await fetch(`${API_URL}/`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json", // Tell backend we are sending JSON
-      },
-      body: JSON.stringify(newQuoteData), // Convert JS object to JSON string
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ quote: quoteValue, author: authorValue }),
     });
 
-    // Check if the backend accepted the quote
     if (response.ok) {
-      // Success!
       messageArea.textContent = "Quote added successfully! ✅";
       messageArea.style.color = "green";
-
-      // Clear the form boxes so the user can add another one
       quoteForm.reset();
-
-      // clear message after 5 seconds
-      setTimeout(() => {
-        messageArea.textContent = "";
-      }, 5000);
+      
+      setTimeout(() => { messageArea.textContent = ""; }, 5000);
     } else {
-      // Backend returned an error (like 400 Bad Request)
+      // This will now show the specific error messages from the backend 
+      // like "The quote text cannot be empty."
       const errorText = await response.text();
       messageArea.textContent = "Error: " + errorText;
       messageArea.style.color = "red";
     }
   } catch (error) {
-    // There was a network error (backend is down)
-    console.error("Post Error:", error);
     messageArea.textContent = "Could not connect to the server. ❌";
     messageArea.style.color = "red";
   }
